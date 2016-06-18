@@ -63,7 +63,7 @@ module.exports = {
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/,
-        loader: 'url-loader'
+        loader: 'url-loader',
         query: {
           limit: 150000,
           'name': 'img/img-[hash:6].[ext]'
