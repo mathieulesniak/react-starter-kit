@@ -6,7 +6,7 @@ export default function configureStore(initialState) {
     // middlewares goes here
 
     // add support for Redux dev tools
-    window.devToolsExtension ? window.devToolsExtension() : f => f 
+    window.devToolsExtension ? window.devToolsExtension() : f => f
     )
   );
 
