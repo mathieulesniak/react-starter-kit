@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-const App = (props) => 
+const App = (props) =>
   (<div>
     {props.children}
   </div>);
