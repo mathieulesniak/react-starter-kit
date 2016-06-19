@@ -1,0 +1,1 @@
+export const MY_FANCY_ACTION = 'MY_FANCY_ACTION';
