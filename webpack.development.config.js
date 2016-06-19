@@ -1,38 +1,36 @@
-var path = require('path');
-var webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-
-var HMR_PORT = process.env.HMR_PORT || 7081
-
-var BUILD_DIR = path.resolve(__dirname, 'build');
-var APP_DIR = path.resolve(__dirname, 'src');
-
-var productionMode = (process.argv.indexOf('-p') != -1);
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
+const packageFile = require('./package.json');
+const HMR_PORT = process.env.HMR_PORT || 3000;
+const BUILD_DIR = path.resolve(__dirname, 'build');
+const APP_DIR = path.resolve(__dirname, 'src');
 
 module.exports = {
+  debug: true,
   entry: [
-    'webpack-dev-server/client?https://0.0.0.0:' + HMR_PORT, // WebpackDevServer host and port
+    `webpack-dev-server/client?http://0.0.0.0:${HMR_PORT}`, // WebpackDevServer host and port
     'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
-    APP_DIR + "/index.js",
+    `${APP_DIR}/index.js`,
   ],
   output: {
     path: BUILD_DIR,
-    filename: "app.js",
-    publicPath: "http://localhost:" + HMR_PORT +"/",
+    filename: 'app.js',
+    publicPath: `http://localhost:${HMR_PORT}/`,
   },
-  "scripts": {
-    "start": "node server.js"
+  scripts: {
+    start: 'node server.js',
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env':{
-        'NODE_ENV': JSON.stringify('development'),
-        'VERSION': JSON.stringify(require("./package.json").version)
+      'process.env': {
+        NODE_ENV: JSON.stringify('development'),
+        VERSION: JSON.stringify(packageFile.version),
       },
     }),
     new ExtractTextPlugin('stylesheet.css', {
-      allChunks: true
+      allChunks: true,
     }),
     new webpack.HotModuleReplacementPlugin(),
   ],
@@ -41,18 +39,18 @@ module.exports = {
       {
         test: /\.jsx$|\.js$/,
         loader: 'eslint-loader',
-        include: APP_DIR
+        include: APP_DIR,
       },
     ],
     loaders: [
       {
         test: /\.js?/,
         include: APP_DIR,
-        loaders: ['react-hot', 'babel?compact=false']
+        loaders: ['react-hot', 'babel?compact=false'],
       },
       {
         test: /\.(scss|css)$/,
-        loader: 'style!css!sass?sourceMap'
+        loader: 'style!css!sass?sourceMap',
       },
       {
         test: /\.(eot|ttf|wav|mp3)$/,
@@ -66,14 +64,14 @@ module.exports = {
         loader: 'url-loader',
         query: {
           limit: 150000,
-          'name': 'img/img-[hash:6].[ext]'
-        }
-      }
-    ]
+          name: 'img/img-[hash:6].[ext]',
+        },
+      },
+    ],
   },
   devServer: {
     historyApiFallback: true,
     port: HMR_PORT,
     inline: true,
   },
-}
+};
